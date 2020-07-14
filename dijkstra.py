@@ -1,8 +1,17 @@
 import networkx as nx
 import matplotlib.pyplot as plt
 import timeit
+import pandas 
+''' Imported Pandas '''
 
-g=nx.read_weighted_edgelist("/Users/neildafarrar/Desktop/i2.txt", create_using=nx.Graph(), nodetype=int)
+#Chane here - Used this method to read edgelist as the original one was throwing cannot convert to dict error
+ed_list = pandas.read_csv('i2.txt', delimiter = r"\s+", header= None)
+ed_list.columns = ['index', 'FromNode', 'ToNode']
+
+
+# Changed here - changed this from nx.read_weighted_edgelist to this as it was throwing error
+g = nx.from_pandas_edgelist(ed_list, source='FromNode', target='ToNode')
+
 pos=nx.spring_layout(g)
 nx.draw_networkx(g, with_labels=True, pos=pos, node_size=700, node_color="c")
 nx.draw_networkx_edge_labels(g, pos=pos, edge_labels=nx.get_edge_attributes(g,'weight'))
@@ -72,7 +81,9 @@ def dijkstra(graph, start, end):
     sto = timeit.default_timer()
     tim=sto-sta
     # return the path in order start -> end, and it's cost
-    return path[::-1], distances[end]
+    
+    #---------- Change here - tim was missing in the return statement
+    return path[::-1], distances[end], tim
 
 if __name__ == '__main__':
     graph = {
@@ -85,11 +96,12 @@ if __name__ == '__main__':
      }
     p, d, t = dijkstra(graph, start='1', end='6')
     
-    print "\nPath:\n=============================="
-    print p
-    print "\nShortest Distance:\n=============================="
-    print d
-    print "\n"
-    print "Total Time:\n=============================="
-    print t
+    # ---------------- Change here - Made this python3 compatible
+    print( "\nPath:\n==============================")
+    print (p)
+    print ("\nShortest Distance:\n==============================")
+    print (d)
+    print ("\n")
+    print ("Total Time:\n==============================")
+    print (t)
     
