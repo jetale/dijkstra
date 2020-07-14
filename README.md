@@ -6,4 +6,4 @@ Implementation of dijkstra's algorithm in Python - Output includes network graph
 - It takes node inputs from text files and creates a networkx graph
 - It also takes in a dictionary and calculates the shortest path using Dijkstra's algorithm
 
-Thank you
+Thank you @nxfx for creating the original repo
